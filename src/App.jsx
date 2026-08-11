@@ -4,9 +4,13 @@ import Hero from './components/Hero.jsx'
 import Ticker from './components/Ticker.jsx'
 import Ethos from './components/Ethos.jsx'
 import Atlas from './components/Atlas.jsx'
+import Desserts from './components/Desserts.jsx'
 import Studio from './components/Studio.jsx'
+import Serviceability from './components/Serviceability.jsx'
+import Faq from './components/Faq.jsx'
 import Footer from './components/Footer.jsx'
 import Bag from './components/Bag.jsx'
+import CallBar from './components/CallBar.jsx'
 import { useStore } from './store.js'
 import { useSmoothScroll } from './hooks/useSmoothScroll.js'
 import { useReveal } from './hooks/useReveal.js'
@@ -29,11 +33,15 @@ export default function App() {
         <Ticker />
         <Ethos />
         <Atlas />
+        <Desserts />
         <Studio />
+        <Serviceability />
+        <Faq />
       </main>
 
       <Footer />
       <Bag />
+      <CallBar />
     </>
   )
 }

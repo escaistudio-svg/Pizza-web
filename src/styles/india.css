@@ -1,0 +1,845 @@
+/* ==========================================================================
+   FSSAI veg / non-veg mark
+
+   A filled circle inside a square outline — green for vegetarian, brown for
+   non-vegetarian. Legally required on Indian menus, so it's built to stay
+   legible at 10px and never to depend on colour alone (every mark carries a
+   screen-reader label, and the shapes differ in weight).
+   ========================================================================== */
+
+.vegmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  flex: none;
+  vertical-align: middle;
+}
+
+.vegmark__box {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  border: 1.5px solid var(--mark);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.vegmark__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 100px;
+  background: var(--mark);
+}
+
+.vegmark--veg {
+  --mark: #1a8f3c;
+}
+
+.vegmark--nonveg {
+  --mark: #9b2c1f;
+}
+
+.vegmark--sm .vegmark__box {
+  width: 11px;
+  height: 11px;
+  border-width: 1.25px;
+}
+
+.vegmark--sm .vegmark__dot {
+  width: 5px;
+  height: 5px;
+}
+
+.vegmark__egg {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* open / closed indicator */
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 100px;
+  flex: none;
+  display: inline-block;
+}
+
+.dot--open {
+  background: #1a8f3c;
+  box-shadow: 0 0 0 3px rgba(26, 143, 60, 0.18);
+}
+
+.dot--shut {
+  background: var(--ink-40);
+}
+
+/* ==========================================================================
+   veg-only toggle
+   ========================================================================== */
+
+.atlas__filter {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.vegtoggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ink-60);
+  transition: color 0.3s ease;
+}
+
+.vegtoggle.is-on {
+  color: #1a8f3c;
+}
+
+.vegtoggle__track {
+  width: 38px;
+  height: 22px;
+  border-radius: 100px;
+  background: var(--ink-10);
+  box-shadow: inset 0 0 0 1px var(--ink-20);
+  padding: 3px;
+  transition: background 0.4s var(--ease-out);
+}
+
+.vegtoggle.is-on .vegtoggle__track {
+  background: #1a8f3c;
+  box-shadow: inset 0 0 0 1px #1a8f3c;
+}
+
+.vegtoggle__knob {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 100px;
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.42s var(--ease-back);
+}
+
+.vegtoggle.is-on .vegtoggle__knob {
+  transform: translateX(16px);
+}
+
+.atlas__count {
+  color: var(--ink-40);
+}
+
+.chapter__empty {
+  padding: 1.4rem 0;
+  color: var(--ink-40);
+  font-size: 0.92rem;
+  border-bottom: 1px solid var(--ink-10);
+}
+
+.flavor__name .vegmark {
+  margin-right: 0.5em;
+  translate: 0 -0.08em;
+}
+
+/* ==========================================================================
+   nav call button
+   ========================================================================== */
+
+.nav__call {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 1rem;
+  border-radius: 100px;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--ink-80);
+  box-shadow: inset 0 0 0 1px var(--ink-10);
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.nav__call:hover {
+  background: var(--basil);
+  color: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--basil);
+}
+
+.nav__call:hover .dot--open {
+  background: var(--paper);
+  box-shadow: none;
+}
+
+@media (max-width: 1180px) {
+  .nav__call-num {
+    display: none;
+  }
+  .nav__call {
+    padding: 0.6rem 0.75rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav__call {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   sticky call bar — phone-first ordering, thumb reach
+   ========================================================================== */
+
+.callbar {
+  position: fixed;
+  z-index: 70;
+  left: 50%;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  translate: -50% 0;
+  display: none;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 100px;
+  background: color-mix(in srgb, var(--ink) 92%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(160%);
+  transition: transform 0.6s var(--ease-out);
+  width: min(440px, calc(100vw - 2rem));
+}
+
+.callbar.is-up {
+  transform: none;
+}
+
+.callbar__btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0.5rem;
+  border-radius: 100px;
+  color: var(--cream);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: left;
+  transition: background 0.3s ease;
+}
+
+.callbar__btn--call {
+  background: var(--basil);
+}
+
+.callbar__btn--wa {
+  background: #1faa53;
+}
+
+.callbar__btn--bag {
+  background: rgba(247, 241, 230, 0.12);
+}
+
+.callbar__btn:active {
+  filter: brightness(0.92);
+}
+
+.callbar__ico {
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.callbar__label {
+  display: grid;
+  line-height: 1.15;
+}
+
+.callbar__label em {
+  font-style: normal;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  opacity: 0.72;
+}
+
+@media (max-width: 900px) {
+  .callbar {
+    display: flex;
+  }
+}
+
+/* ==========================================================================
+   serviceability — pincode check
+   ========================================================================== */
+
+.serve {
+  position: relative;
+  z-index: 3;
+  background: var(--cream-2);
+  border-block: 1px solid var(--ink-10);
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+
+.serve__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.serve__title {
+  font-family: var(--display);
+  font-variation-settings: 'SOFT' 30, 'WONK' 1;
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  margin-block: 0.6rem 0.9rem;
+}
+
+.serve__hours {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--ink-60);
+}
+
+.serve__sep {
+  color: var(--ink-20);
+}
+
+.pinbox {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--paper);
+  border-radius: 100px;
+  padding: 6px 6px 6px 1.4rem;
+  box-shadow: inset 0 0 0 1px var(--ink-20);
+  transition: box-shadow 0.3s ease;
+}
+
+.pinbox:focus-within {
+  box-shadow: inset 0 0 0 2px var(--tomato);
+}
+
+.pinbox__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.pinbox__input {
+  border: 0;
+  background: none;
+  outline: none;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--ink);
+  width: 100%;
+  padding-block: 0.7rem;
+}
+
+.pinbox__input::placeholder {
+  color: var(--ink-20);
+  letter-spacing: 0.22em;
+}
+
+.pinbox__go {
+  padding: 0.9rem 1.6rem;
+  white-space: nowrap;
+}
+
+.serve__result {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1rem;
+  padding-left: 1.4rem;
+  font-size: 0.92rem;
+  color: var(--ink-60);
+  min-height: 3.2em;
+  border-left: 2px solid transparent;
+  transition: border-color 0.4s ease;
+}
+
+.serve__result strong {
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+
+.serve__result.is-yes {
+  border-color: #1a8f3c;
+}
+
+.serve__result.is-soon {
+  border-color: var(--gold);
+}
+
+.serve__result.is-no,
+.serve__result.is-invalid {
+  border-color: var(--tomato);
+}
+
+.serve__hint {
+  color: var(--ink-40);
+}
+
+@media (max-width: 900px) {
+  .serve__grid {
+    grid-template-columns: 1fr;
+  }
+  /* The address wraps to its own line here, leaving the separator stranded. */
+  .serve__sep {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   desserts
+   ========================================================================== */
+
+.sweet {
+  position: relative;
+  z-index: 3;
+  background: var(--cream);
+  padding-block: clamp(4rem, 9vh, 7rem);
+  overflow: hidden;
+}
+
+.sweet__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.sweet__title {
+  font-family: var(--display);
+  font-variation-settings: 'SOFT' 30, 'WONK' 1;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin-top: 0.5rem;
+}
+
+.sweet__note {
+  color: var(--ink-60);
+  max-width: 32ch;
+  font-size: 0.95rem;
+}
+
+.sweet__grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.sweet__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  max-height: 60dvh;
+}
+
+.sweet__panel {
+  display: grid;
+  gap: 1rem;
+  align-content: center;
+}
+
+.sweet__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sweet__counter {
+  color: var(--ink-40);
+}
+
+.swap--sweet {
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  color: var(--accent);
+  transition: color 0.6s var(--ease-out);
+}
+
+.sweet__tagline {
+  color: var(--ink-60);
+  max-width: 34ch;
+}
+
+.sweet__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+
+.sweet__price {
+  font-family: var(--display);
+  font-variation-settings: 'SOFT' 24;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.sweet__nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.sweet__arrow {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 100px;
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  color: var(--ink-60);
+  box-shadow: inset 0 0 0 1px var(--ink-20);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.35s var(--ease-back);
+}
+
+.sweet__arrow:hover {
+  background: var(--accent);
+  color: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  transform: scale(1.08);
+}
+
+.sweet__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1px;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  background: var(--ink-10);
+  border-block: 1px solid var(--ink-10);
+}
+
+.sweet__list li {
+  display: grid;
+}
+
+.sweet__chip {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--cream);
+  text-align: left;
+  transition:
+    background 0.35s var(--ease-out),
+    color 0.35s var(--ease-out);
+}
+
+.sweet__chip:hover,
+.sweet__chip.is-active {
+  background: var(--paper);
+}
+
+.sweet__chip.is-active .sweet__chip-name {
+  color: var(--accent);
+}
+
+.sweet__chip-name {
+  font-family: var(--display);
+  font-variation-settings: 'SOFT' 22;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  transition: color 0.35s ease;
+}
+
+.sweet__chip-price {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-40);
+}
+
+@media (max-width: 1000px) {
+  .sweet__grid {
+    grid-template-columns: 1fr;
+  }
+  .sweet__stage {
+    max-height: 44dvh;
+  }
+}
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+
+.faq {
+  position: relative;
+  z-index: 3;
+  background: var(--cream);
+  padding-block: var(--section-y);
+}
+
+.faq__grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.faq__intro {
+  position: sticky;
+  top: calc(var(--nav-h) + 2rem);
+}
+
+.faq__title {
+  font-family: var(--display);
+  font-variation-settings: 'SOFT' 30, 'WONK' 1;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin-block: 0.6rem 1rem;
+}
+
+.faq__aside {
+  color: var(--ink-60);
+  font-size: 0.94rem;
+  max-width: 28ch;
+}
+
+.faq__list {
+  border-top: 1px solid var(--ink-10);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--ink-10);
+}
+
+.faq__item h3 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.faq__q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1.1rem, 2vw, 1.5rem) 0;
+  text-align: left;
+  font-family: var(--display);
+  font-variation-settings: 'SOFT' 24, 'WONK' 1;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink);
+  transition: color 0.3s ease;
+}
+
+.faq__q:hover {
+  color: var(--tomato);
+}
+
+.faq__icon {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.faq__icon::before,
+.faq__icon::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.faq__icon::after {
+  transform: rotate(90deg);
+}
+
+.faq__item.is-open .faq__icon::after {
+  transform: rotate(0deg);
+}
+
+.faq__panel {
+  padding-bottom: 1.5rem;
+  max-width: 62ch;
+}
+
+.faq__panel p {
+  color: var(--ink-60);
+  line-height: 1.65;
+  animation: faq-in 0.45s var(--ease-out);
+}
+
+@keyframes faq-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 900px) {
+  .faq__grid {
+    grid-template-columns: 1fr;
+  }
+  .faq__intro {
+    position: static;
+  }
+}
+
+/* ==========================================================================
+   studio + bag additions
+   ========================================================================== */
+
+.studio__gst {
+  color: var(--ink-40);
+  margin-top: -0.3rem;
+}
+
+.studio__origin .vegmark__box {
+  border-color: currentColor;
+}
+
+.bag__nudge {
+  font-size: 0.84rem;
+  color: var(--basil);
+  background: rgba(26, 143, 60, 0.09);
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+}
+
+.bag__warn {
+  font-size: 0.84rem;
+  color: var(--tomato);
+}
+
+.bag__fine {
+  color: var(--ink-40);
+  text-align: center;
+  font-size: 0.6rem;
+  line-height: 1.5;
+}
+
+.bag-line__name {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.bag .btn--ghost {
+  margin-top: -0.4rem;
+}
+
+/* leave room for the sticky call bar */
+@media (max-width: 900px) {
+  .bag__foot {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+  .footer {
+    padding-bottom: 6rem;
+  }
+}
+
+/* ==========================================================================
+   footer legal
+   ========================================================================== */
+
+.footer__hours {
+  font-variant-numeric: tabular-nums;
+}
+
+.footer__hours li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.86rem;
+  color: rgba(247, 241, 230, 0.72);
+  padding-block: 0.16rem;
+  max-width: 190px;
+}
+
+.footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 2rem;
+  align-items: center;
+  padding-block: 1.6rem;
+  border-top: 1px solid rgba(247, 241, 230, 0.14);
+  font-size: 0.76rem;
+  color: rgba(247, 241, 230, 0.55);
+}
+
+.footer__fssai {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: rgba(247, 241, 230, 0.78);
+}
+
+.footer__fssai-mark {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  border: 1.5px solid #4caf6d;
+  position: relative;
+}
+
+.footer__fssai-mark::after {
+  content: '';
+  position: absolute;
+  inset: 2.5px;
+  border-radius: 100px;
+  background: #4caf6d;
+}
+
+.footer__base {
+  border-top: 0;
+  padding-top: 0.4rem;
+}

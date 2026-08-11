@@ -20,6 +20,9 @@ export const SAUCES = {
   mole: { color: '#3E2015', deep: '#24110B' },
   bbq: { color: '#6C2810', deep: '#431709' },
   cocoa: { color: '#33190F', deep: '#1D0C07' },
+  rose: { color: '#B23E58', deep: '#7E2438' },
+  caramel: { color: '#8A5216', deep: '#5C340C' },
+  mango: { color: '#D4900E', deep: '#9E6606' },
 }
 
 export const CHEESES = {
@@ -29,6 +32,8 @@ export const CHEESES = {
   provolone: { color: '#E2C271', melt: '#C8A048', coverage: 0.9 },
   catupiry: { color: '#F0E0BA', melt: '#DCC898', coverage: 0.86 },
   none: { color: '#E4CFA2', melt: '#CDB484', coverage: 0 },
+  mascarpone: { color: '#F6EBD2', melt: '#E4D4B0', coverage: 0.88 },
+  cream: { color: '#F8F0DE', melt: '#E8DCC0', coverage: 0.8 },
 }
 
 export const REGIONS = [
@@ -45,9 +50,10 @@ export const REGIONS = [
     pizzas: [
       {
         id: 'margherita-dop',
+        veg: true,
         name: 'Margherita D.O.P.',
         tagline: 'San Marzano · fior di latte · basil',
-        price: 21,
+        price: 499,
         spice: 0,
         sauce: 'tomato',
         cheese: 'fiordilatte',
@@ -59,9 +65,10 @@ export const REGIONS = [
       },
       {
         id: 'marinara-verace',
+        veg: true,
         name: 'Marinara Verace',
         tagline: 'No cheese. No apology.',
-        price: 18,
+        price: 449,
         spice: 0,
         sauce: 'marinara',
         cheese: 'none',
@@ -72,9 +79,10 @@ export const REGIONS = [
       },
       {
         id: 'diavola',
+        veg: false,
         name: 'Diavola',
         tagline: 'Spianata piccante · Calabrian chili',
-        price: 24,
+        price: 579,
         spice: 3,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -86,9 +94,10 @@ export const REGIONS = [
       },
       {
         id: 'quattro-formaggi',
+        veg: true,
         name: 'Quattro Formaggi',
         tagline: 'Gorgonzola · fontina · pecorino · mozzarella',
-        price: 26,
+        price: 629,
         spice: 0,
         sauce: 'bianca',
         cheese: 'provolone',
@@ -101,9 +110,10 @@ export const REGIONS = [
       },
       {
         id: 'capricciosa',
+        veg: false,
         name: 'Capricciosa',
         tagline: 'Artichoke · prosciutto cotto · olive · funghi',
-        price: 27,
+        price: 649,
         spice: 0,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -116,9 +126,10 @@ export const REGIONS = [
       },
       {
         id: 'bufala-basilico',
+        veg: true,
         name: 'Bufala & Basilico',
         tagline: 'Buffalo milk · cold-torn basil · Sicilian oil',
-        price: 28,
+        price: 679,
         spice: 0,
         sauce: 'tomato',
         cheese: 'fiordilatte',
@@ -144,9 +155,10 @@ export const REGIONS = [
     pizzas: [
       {
         id: 'pepperoni-cup',
+        veg: false,
         name: 'Pepperoni Cup',
         tagline: 'Cupped · charred · pooling with chili oil',
-        price: 23,
+        price: 549,
         spice: 1,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -157,9 +169,10 @@ export const REGIONS = [
       },
       {
         id: 'detroit-square',
+        veg: false,
         name: 'Detroit Motor Square',
         tagline: 'Brick cheese to the edge · racing stripes',
-        price: 25,
+        price: 599,
         spice: 1,
         sauce: 'tomato',
         cheese: 'brick',
@@ -170,9 +183,10 @@ export const REGIONS = [
       },
       {
         id: 'buffalo-blue',
+        veg: false,
         name: 'Buffalo Blue Chicken',
         tagline: 'Hot sauce · blue cheese · celery snow',
-        price: 26,
+        price: 629,
         spice: 2,
         sauce: 'bbq',
         cheese: 'mozzarella',
@@ -185,9 +199,10 @@ export const REGIONS = [
       },
       {
         id: 'white-clam',
+        veg: false,
         name: 'New Haven White Clam',
         tagline: 'Littlenecks · garlic · pecorino · no sauce',
-        price: 29,
+        price: 699,
         spice: 0,
         sauce: 'bianca',
         cheese: 'none',
@@ -199,9 +214,10 @@ export const REGIONS = [
       },
       {
         id: 'meat-wagon',
+        veg: false,
         name: 'The Meat Wagon',
         tagline: 'Sausage · bacon · soppressata · meatball',
-        price: 31,
+        price: 749,
         spice: 2,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -213,9 +229,10 @@ export const REGIONS = [
       },
       {
         id: 'grandma-slice',
+        veg: true,
         name: 'Grandma Slice',
         tagline: 'Thin · square · crushed tomato on top',
-        price: 22,
+        price: 529,
         spice: 0,
         sauce: 'tomato',
         cheese: 'provolone',
@@ -241,9 +258,10 @@ export const REGIONS = [
     pizzas: [
       {
         id: 'ebi-mayo',
+        veg: false,
         name: 'Ebi Mayo',
         tagline: 'Sweet prawn · kewpie lattice · nori',
-        price: 30,
+        price: 729,
         spice: 0,
         sauce: 'white',
         cheese: 'mozzarella',
@@ -255,9 +273,10 @@ export const REGIONS = [
       },
       {
         id: 'teriyaki-tori',
+        veg: false,
         name: 'Teriyaki Tori',
         tagline: 'Glazed chicken · leek · sesame',
-        price: 27,
+        price: 649,
         spice: 0,
         sauce: 'bbq',
         cheese: 'mozzarella',
@@ -269,9 +288,10 @@ export const REGIONS = [
       },
       {
         id: 'mentaiko-nori',
+        veg: false,
         name: 'Mentaiko & Nori',
         tagline: 'Cured roe · seaweed · shiso',
-        price: 32,
+        price: 779,
         spice: 2,
         sauce: 'white',
         cheese: 'mozzarella',
@@ -283,9 +303,11 @@ export const REGIONS = [
       },
       {
         id: 'wagyu-sukiyaki',
+        veg: false,
+        egg: true,
         name: 'Wagyu Sukiyaki',
         tagline: 'A5 ribbons · onsen yolk · sansho',
-        price: 38,
+        price: 899,
         spice: 1,
         sauce: 'bbq',
         cheese: 'fiordilatte',
@@ -297,9 +319,10 @@ export const REGIONS = [
       },
       {
         id: 'yasai-garden',
+        veg: true,
         name: 'Yasai Garden',
         tagline: 'Nine vegetables · yuzu kosho',
-        price: 26,
+        price: 629,
         spice: 1,
         sauce: 'verde',
         cheese: 'fiordilatte',
@@ -312,9 +335,10 @@ export const REGIONS = [
       },
       {
         id: 'miso-mushroom',
+        veg: true,
         name: 'Miso Mushroom',
         tagline: 'Shimeji · maitake · black garlic',
-        price: 28,
+        price: 679,
         spice: 0,
         sauce: 'mole',
         cheese: 'provolone',
@@ -340,9 +364,10 @@ export const REGIONS = [
     pizzas: [
       {
         id: 'al-pastor',
+        veg: false,
         name: 'Al Pastor',
         tagline: 'Trompo pork · pineapple · cilantro · onion',
-        price: 26,
+        price: 629,
         spice: 2,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -355,9 +380,10 @@ export const REGIONS = [
       },
       {
         id: 'chorizo-poblano',
+        veg: false,
         name: 'Chorizo & Poblano',
         tagline: 'Smoked chile · queso fresco',
-        price: 25,
+        price: 599,
         spice: 2,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -369,9 +395,10 @@ export const REGIONS = [
       },
       {
         id: 'elote-blanca',
+        veg: true,
         name: 'Elote Blanca',
         tagline: 'Street corn · lime crema · tajín',
-        price: 24,
+        price: 579,
         spice: 1,
         sauce: 'white',
         cheese: 'mozzarella',
@@ -383,9 +410,10 @@ export const REGIONS = [
       },
       {
         id: 'birria-dip',
+        veg: false,
         name: 'Birria Dip',
         tagline: 'Braised beef · consommé on the side',
-        price: 30,
+        price: 729,
         spice: 2,
         sauce: 'bbq',
         cheese: 'brick',
@@ -397,9 +425,10 @@ export const REGIONS = [
       },
       {
         id: 'mole-negro',
+        veg: true,
         name: 'Mole Negro',
         tagline: 'Thirty ingredients · sesame · dark chile',
-        price: 29,
+        price: 699,
         spice: 2,
         sauce: 'mole',
         cheese: 'provolone',
@@ -411,9 +440,10 @@ export const REGIONS = [
       },
       {
         id: 'nopal-verde',
+        veg: true,
         name: 'Nopal Verde',
         tagline: 'Cactus paddle · salsa verde · avocado',
-        price: 24,
+        price: 579,
         spice: 1,
         sauce: 'verde',
         cheese: 'fiordilatte',
@@ -439,9 +469,10 @@ export const REGIONS = [
     pizzas: [
       {
         id: 'kebabpizza',
+        veg: false,
         name: 'Kebabpizza',
         tagline: 'The national dish · garlic sauce · pepperoncini',
-        price: 25,
+        price: 599,
         spice: 2,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -454,9 +485,10 @@ export const REGIONS = [
       },
       {
         id: 'banan-curry',
+        veg: true,
         name: 'Banan Curry',
         tagline: 'Banana · curry · peanut. Trust us.',
-        price: 23,
+        price: 549,
         spice: 1,
         sauce: 'curry',
         cheese: 'mozzarella',
@@ -468,9 +500,10 @@ export const REGIONS = [
       },
       {
         id: 'skagen',
+        veg: false,
         name: 'Toast Skagen',
         tagline: 'Cold prawn · dill · lemon crème',
-        price: 29,
+        price: 699,
         spice: 0,
         sauce: 'white',
         cheese: 'none',
@@ -482,9 +515,10 @@ export const REGIONS = [
       },
       {
         id: 'vesuvio',
+        veg: false,
         name: 'Vesuvio',
         tagline: 'Ham · oregano · the eternal Tuesday',
-        price: 21,
+        price: 499,
         spice: 0,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -495,9 +529,10 @@ export const REGIONS = [
       },
       {
         id: 'vasterbotten',
+        veg: true,
         name: 'Västerbotten & Kantarell',
         tagline: 'Aged cheese · chanterelle · thyme',
-        price: 30,
+        price: 729,
         spice: 0,
         sauce: 'bianca',
         cheese: 'provolone',
@@ -509,9 +544,10 @@ export const REGIONS = [
       },
       {
         id: 'isterband',
+        veg: false,
         name: 'Isterband & Dill',
         tagline: 'Smoked sausage · potato · dill cream',
-        price: 27,
+        price: 649,
         spice: 0,
         sauce: 'bianca',
         cheese: 'mozzarella',
@@ -537,9 +573,10 @@ export const REGIONS = [
     pizzas: [
       {
         id: 'catupiry-frango',
+        veg: false,
         name: 'Frango com Catupiry',
         tagline: 'Shredded chicken · the creamiest cheese alive',
-        price: 26,
+        price: 629,
         spice: 0,
         sauce: 'tomato',
         cheese: 'catupiry',
@@ -551,9 +588,11 @@ export const REGIONS = [
       },
       {
         id: 'portuguesa',
+        veg: false,
+        egg: true,
         name: 'Portuguesa',
         tagline: 'Egg · ham · onion · olive · peas',
-        price: 25,
+        price: 599,
         spice: 0,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -566,9 +605,10 @@ export const REGIONS = [
       },
       {
         id: 'calabresa',
+        veg: false,
         name: 'Calabresa',
         tagline: 'Cured sausage · raw onion · oregano',
-        price: 24,
+        price: 579,
         spice: 1,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -579,9 +619,10 @@ export const REGIONS = [
       },
       {
         id: 'palmito',
+        veg: true,
         name: 'Palmito',
         tagline: 'Heart of palm · olive · requeijão',
-        price: 27,
+        price: 649,
         spice: 0,
         sauce: 'bianca',
         cheese: 'catupiry',
@@ -593,9 +634,10 @@ export const REGIONS = [
       },
       {
         id: 'quatro-queijos-br',
+        veg: true,
         name: 'Quatro Queijos',
         tagline: 'Catupiry · provolone · parmesão · gorgonzola',
-        price: 28,
+        price: 679,
         spice: 0,
         sauce: 'bianca',
         cheese: 'catupiry',
@@ -607,9 +649,10 @@ export const REGIONS = [
       },
       {
         id: 'brigadeiro',
+        veg: true,
         name: 'Brigadeiro Doce',
         tagline: 'Dessert. Chocolate. Sprinkles. Yes, really.',
-        price: 22,
+        price: 529,
         spice: 0,
         sauce: 'cocoa',
         cheese: 'none',
@@ -635,9 +678,10 @@ export const REGIONS = [
     pizzas: [
       {
         id: 'tandoori-paneer',
+        veg: true,
         name: 'Tandoori Paneer Tikka',
         tagline: 'Charred paneer · capsicum · mint drizzle',
-        price: 26,
+        price: 629,
         spice: 2,
         sauce: 'curry',
         cheese: 'mozzarella',
@@ -650,9 +694,10 @@ export const REGIONS = [
       },
       {
         id: 'butter-chicken',
+        veg: false,
         name: 'Butter Chicken',
         tagline: 'Makhani base · kasuri methi · cream swirl',
-        price: 28,
+        price: 679,
         spice: 1,
         sauce: 'curry',
         cheese: 'mozzarella',
@@ -664,9 +709,10 @@ export const REGIONS = [
       },
       {
         id: 'masala-corn',
+        veg: true,
         name: 'Masala Corn & Capsicum',
         tagline: 'Sweetcorn · chaat masala · lime',
-        price: 23,
+        price: 549,
         spice: 1,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -678,9 +724,10 @@ export const REGIONS = [
       },
       {
         id: 'keema-pav',
+        veg: false,
         name: 'Keema Pav',
         tagline: 'Spiced mince · buttered edge · raw onion',
-        price: 27,
+        price: 649,
         spice: 3,
         sauce: 'tomato',
         cheese: 'mozzarella',
@@ -692,9 +739,10 @@ export const REGIONS = [
       },
       {
         id: 'achari-mushroom',
+        veg: true,
         name: 'Achari Mushroom',
         tagline: 'Pickling spice · button mushroom · nigella',
-        price: 25,
+        price: 599,
         spice: 2,
         sauce: 'curry',
         cheese: 'provolone',
@@ -706,9 +754,10 @@ export const REGIONS = [
       },
       {
         id: 'chettinad',
+        veg: false,
         name: 'Chettinad Chicken',
         tagline: 'Black pepper · curry leaf · coconut',
-        price: 29,
+        price: 699,
         spice: 3,
         sauce: 'mole',
         cheese: 'mozzarella',
@@ -760,6 +809,116 @@ export const SIZES = [
 
 export const CRUSTS = [
   { id: 'classic', label: '72-hour Classic', add: 0, note: 'Airy cornicione, leopard char' },
-  { id: 'thin', label: 'Roman Thin', add: 2, note: 'Cracker snap, olive oil finish' },
-  { id: 'pan', label: 'Detroit Pan', add: 4, note: 'Focaccia crumb, fried cheese frico' },
+  { id: 'thin', label: 'Roman Thin', add: 60, note: 'Cracker snap, olive oil finish' },
+  { id: 'pan', label: 'Detroit Pan', add: 120, note: 'Focaccia crumb, fried cheese frico' },
 ]
+
+/* ------------------------------------------------------------------ *
+ * desserts
+ *
+ * Same shape as a pizza, so the same 3D engine renders them — a sweet base
+ * plus toppings. Indian sweets do most of the work here; the wood oven and the
+ * mithai counter turn out to get along.
+ * ------------------------------------------------------------------ */
+
+export const DESSERTS = [
+  {
+    id: 'gulab-jamun-cheesecake',
+    veg: true,
+    name: 'Gulab Jamun Cheesecake',
+    tagline: 'Warm jamun · baked cheesecake · rose syrup',
+    price: 429,
+    spice: 0,
+    sauce: 'rose',
+    cheese: 'mascarpone',
+    accent: '#B23E58',
+    toppings: [
+      { shape: 'dome', color: '#6E3A1C', count: 7, size: 1.5 },
+      { shape: 'drizzle', color: '#C4506A', count: 3, size: 1.1 },
+      { shape: 'fleck', color: '#7FA84E', count: 18, size: 0.8 },
+    ],
+  },
+  {
+    id: 'nutella-sea-salt',
+    veg: true,
+    name: 'Nutella & Sea Salt',
+    tagline: 'Hazelnut · flaked salt · burnt butter crust',
+    price: 379,
+    spice: 0,
+    sauce: 'cocoa',
+    cheese: 'none',
+    accent: '#6B4028',
+    toppings: [
+      { shape: 'blob', color: '#8A5A32', count: 10, size: 1.15 },
+      { shape: 'kernel', color: '#F6F0E2', count: 26, size: 0.7 },
+      { shape: 'drizzle', color: '#2A150E', count: 2, size: 1 },
+    ],
+  },
+  {
+    id: 'rasmalai-cream',
+    veg: true,
+    name: 'Rasmalai Cream Pie',
+    tagline: 'Saffron milk · pistachio · cardamom',
+    price: 409,
+    spice: 0,
+    sauce: 'mango',
+    cheese: 'cream',
+    accent: '#D4900E',
+    toppings: [
+      { shape: 'dome', color: '#F6EEDA', count: 6, size: 1.6 },
+      { shape: 'fleck', color: '#5E8A3A', count: 26, size: 0.85 },
+      { shape: 'kernel', color: '#E2A614', count: 16, size: 0.7 },
+    ],
+  },
+  {
+    id: 'motichoor-crumble',
+    veg: true,
+    name: 'Motichoor Crumble',
+    tagline: 'Boondi · ghee crumb · warm caramel',
+    price: 359,
+    spice: 0,
+    sauce: 'caramel',
+    cheese: 'none',
+    accent: '#C97A1E',
+    toppings: [
+      { shape: 'kernel', color: '#E8901A', count: 46, size: 1 },
+      { shape: 'blob', color: '#D6B472', count: 7, size: 0.95 },
+      { shape: 'drizzle', color: '#F2DCA8', count: 2, size: 1 },
+    ],
+  },
+  {
+    id: 'mango-kulfi',
+    veg: true,
+    name: 'Alphonso Kulfi Slice',
+    tagline: 'Alphonso · condensed milk · pistachio — summer only',
+    price: 389,
+    spice: 0,
+    sauce: 'mango',
+    cheese: 'cream',
+    accent: '#E2960C',
+    toppings: [
+      { shape: 'cube', color: '#F2B424', count: 9, size: 1.2 },
+      { shape: 'fleck', color: '#5E8A3A', count: 22, size: 0.8 },
+      { shape: 'kernel', color: '#FBF2DE', count: 18, size: 0.65 },
+    ],
+  },
+  {
+    id: 'choco-chip-cookie-pie',
+    veg: true,
+    egg: true,
+    name: 'Cookie Dough Pie',
+    tagline: 'Half-baked · dark chocolate · sea salt',
+    price: 349,
+    spice: 0,
+    sauce: 'caramel',
+    cheese: 'mascarpone',
+    accent: '#8A5216',
+    toppings: [
+      { shape: 'dome', color: '#3A2118', count: 12, size: 0.9 },
+      { shape: 'blob', color: '#C99A5C', count: 8, size: 1.1 },
+      { shape: 'kernel', color: '#F6F0E2', count: 20, size: 0.6 },
+    ],
+  },
+]
+
+export const getDessert = (id) => DESSERTS.find((d) => d.id === id)

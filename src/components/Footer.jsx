@@ -1,4 +1,5 @@
 import PizzaO from './PizzaO.jsx'
+import { CONTACT, OUTLET, PAYMENTS, GST_NOTE, storeStatus } from '../data/config.js'
 
 const COLUMNS = [
   {
@@ -6,25 +7,29 @@ const COLUMNS = [
     links: [
       { label: 'Build a pie', href: '#studio' },
       { label: 'The Atlas', href: '#atlas' },
-      { label: 'Delivery — 4 mile radius', href: '#studio' },
-      { label: 'Pickup — 20 min', href: '#studio' },
+      { label: 'Desserts', href: '#desserts' },
+      { label: 'Check your pincode', href: '#delivery' },
     ],
   },
   {
     title: 'Kitchen',
     links: [
       { label: 'The story', href: '#story' },
-      { label: 'Sourcing', href: '#story' },
-      { label: 'Fermentation log', href: '#story' },
+      { label: 'FAQ', href: '#faq' },
+      { label: CONTACT.email, href: `mailto:${CONTACT.email}` },
+      { label: CONTACT.instagram, href: CONTACT.instagramHref },
     ],
   },
   {
     title: 'Visit',
-    text: ['218 Fulton Street', 'Brooklyn, NY', 'Wed–Sun · 5pm till the dough runs out'],
+    text: [OUTLET.line1, OUTLET.line2, OUTLET.maharashtra],
+    mapsHref: OUTLET.mapsHref,
   },
 ]
 
 export default function Footer() {
+  const status = storeStatus()
+
   return (
     <footer className="footer">
       <div className="footer__inner">
@@ -54,27 +59,43 @@ export default function Footer() {
                       <p>{line}</p>
                     </li>
                   ))}
+                  {col.mapsHref && (
+                    <li>
+                      <a href={col.mapsHref} target="_blank" rel="noopener noreferrer">
+                        Open in Maps →
+                      </a>
+                    </li>
+                  )}
                 </ul>
               )}
             </div>
           ))}
 
           <div className="footer__col">
-            <h4>Say hello</h4>
-            <ul>
-              <li>
-                <a href="mailto:hello@flourchild.pizza">hello@flourchild.pizza</a>
-              </li>
-              <li>
-                <a href="#top">@flourchild</a>
-              </li>
+            <h4>Hours</h4>
+            <ul className="footer__hours">
+              {OUTLET.hours.map((h) => (
+                <li key={h.day}>
+                  <span>{h.day}</span>
+                  <span className="num">{h.open ? `${h.open}–${h.close}` : 'Closed'}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
+        <div className="footer__legal">
+          <span className="footer__fssai">
+            <span className="footer__fssai-mark" aria-hidden="true" />
+            FSSAI Lic. No. <span className="num">{OUTLET.fssai}</span>
+          </span>
+          <span>{GST_NOTE}</span>
+          <span>{PAYMENTS.join(' · ')}</span>
+        </div>
+
         <div className="footer__base">
-          <span>© {new Date().getFullYear()} Flourchild. One oven, seven passports.</span>
-          <span>Fired to order · Never par-baked</span>
+          <span>© {new Date().getFullYear()} Flourchild, Mumbai. One oven, seven passports.</span>
+          <span>{status.open ? 'Open now' : status.label} · Fired to order</span>
         </div>
       </div>
     </footer>

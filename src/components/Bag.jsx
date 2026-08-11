@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import PizzaO from './PizzaO.jsx'
-import { useStore, selectBagCount, selectSubtotal, linePrice } from '../store.js'
+import { useStore, selectBagCount, selectSubtotal, linePrice, lineItem, isDessert } from '../store.js'
 import { useScrollLock } from '../hooks/useSmoothScroll.js'
-import { getPizza, SIZES, CRUSTS } from '../data/menu.js'
-
-const DELIVERY = 6
+import { SIZES, CRUSTS } from '../data/menu.js'
+import { DELIVERY, inr, GST_NOTE, PAYMENTS, CONTACT } from '../data/config.js'
+import VegMark from './VegMark.jsx'
 
 export default function Bag() {
   const open = useStore((s) => s.bagOpen)
@@ -23,7 +23,11 @@ export default function Bag() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open, close])
 
-  const total = bag.length ? subtotal + DELIVERY : 0
+  const freeShipping = subtotal >= DELIVERY.freeAbove
+  const shipping = !bag.length || freeShipping ? 0 : DELIVERY.fee
+  const total = bag.length ? subtotal + shipping : 0
+  const belowMin = bag.length > 0 && subtotal < DELIVERY.minOrder
+  const toFree = Math.max(0, DELIVERY.freeAbove - subtotal)
 
   return (
     <>
@@ -58,9 +62,10 @@ export default function Bag() {
           ) : (
             <ul>
               {bag.map((line, i) => {
-                const pizza = getPizza(line.pizzaId)
+                const pizza = lineItem(line.pizzaId)
                 const size = SIZES.find((s) => s.id === line.size)
                 const crust = CRUSTS.find((c) => c.id === line.crust)
+                const sweet = isDessert(line.pizzaId)
                 if (!pizza) return null
                 return (
                   <li
@@ -72,19 +77,22 @@ export default function Bag() {
                       className="bag-line__chip"
                       style={{ '--accent-soft': `${pizza.accent}1a` }}
                     >
-                      {pizza.flag}
+                      {sweet ? '🍰' : pizza.flag}
                     </span>
 
                     <div>
-                      <div className="bag-line__name">{pizza.name}</div>
+                      <div className="bag-line__name">
+                        <VegMark veg={pizza.veg} egg={pizza.egg} small />
+                        {pizza.name}
+                      </div>
                       <div className="bag-line__meta">
-                        {size?.label} {size?.inches}" · {crust?.label}
+                        {sweet ? 'Dessert · one size' : `${size?.label} ${size?.inches}" · ${crust?.label}`}
                       </div>
                     </div>
 
                     <div className="bag-line__right">
                       <span className="bag-line__price num">
-                        ${(linePrice(line) * line.qty).toFixed(2)}
+                        {inr(linePrice(line) * line.qty)}
                       </span>
                       <span className="stepper">
                         <button
@@ -112,23 +120,43 @@ export default function Bag() {
         </div>
 
         <div className="bag__foot">
+          {bag.length > 0 && !freeShipping && (
+            <p className="bag__nudge">
+              Add <strong className="num">{inr(toFree)}</strong> more for free delivery.
+            </p>
+          )}
+
           <div className="bag__row">
             <span>Subtotal</span>
-            <span className="num">${subtotal.toFixed(2)}</span>
+            <span className="num">{inr(subtotal)}</span>
           </div>
           <div className="bag__row">
-            <span>Delivery — within 4 miles</span>
-            <span className="num">{bag.length ? `$${DELIVERY.toFixed(2)}` : '—'}</span>
+            <span>Delivery</span>
+            <span className="num">
+              {!bag.length ? '—' : freeShipping ? 'Free' : inr(DELIVERY.fee)}
+            </span>
           </div>
           <div className="bag__row bag__row--total">
             <span>Total</span>
-            <span className="num">${total.toFixed(2)}</span>
+            <span className="num">{inr(total)}</span>
           </div>
-          <button type="button" className="btn btn--block" disabled={!bag.length}>
+
+          {belowMin && (
+            <p className="bag__warn">
+              Minimum order is {inr(DELIVERY.minOrder)}.
+            </p>
+          )}
+
+          <button type="button" className="btn btn--block" disabled={!bag.length || belowMin}>
             Checkout
           </button>
-          <p className="mono" style={{ color: 'var(--ink-40)', textAlign: 'center' }}>
-            Fired to order · 25–35 min
+
+          <a className="btn btn--ghost btn--block" href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer">
+            Order on WhatsApp
+          </a>
+
+          <p className="mono bag__fine">
+            {GST_NOTE} · {PAYMENTS.join(' · ')}
           </p>
         </div>
       </aside>

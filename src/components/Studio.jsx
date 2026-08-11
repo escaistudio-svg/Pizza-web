@@ -4,6 +4,8 @@ import { StudioScene } from '../three/scenes.jsx'
 import SwapText from './SwapText.jsx'
 import { SIGNATURES, SIGNATURE_IDS, SIZES, CRUSTS, getPizza } from '../data/menu.js'
 import { useStore } from '../store.js'
+import { inr, GST_NOTE } from '../data/config.js'
+import VegMark from './VegMark.jsx'
 
 /** Sliding-pill segmented control. Equal-width cells, so no measuring needed. */
 function Segmented({ options, value, onChange, label, hint }) {
@@ -144,6 +146,7 @@ export default function Studio() {
 
             <div>
               <div className="studio__origin">
+                <VegMark veg={pizza.veg} egg={pizza.egg} />
                 {pizza.city}, {pizza.country}
                 {pizza.spice > 0 && (
                   <span className="spice">
@@ -167,6 +170,8 @@ export default function Studio() {
 
             <Segmented label="Crust" options={CRUSTS} value={crust} onChange={setCrust} />
 
+            <p className="studio__gst mono">{GST_NOTE}</p>
+
             <div className="studio__foot">
               <span className="stepper">
                 <button type="button" onClick={() => setQty(qty - 1)} aria-label="One fewer">
@@ -180,7 +185,7 @@ export default function Studio() {
 
               <button type="button" className="btn btn--block" onClick={add}>
                 Add to bag
-                <span className="studio__price num">${(price * qty).toFixed(2)}</span>
+                <span className="studio__price num">{inr(price * qty)}</span>
               </button>
             </div>
           </div>

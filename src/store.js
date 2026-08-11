@@ -1,14 +1,21 @@
 import { create } from 'zustand'
-import { SIGNATURE_IDS, SIZES, CRUSTS, getPizza } from './data/menu.js'
+import { SIGNATURE_IDS, SIZES, CRUSTS, getPizza, getDessert } from './data/menu.js'
 
 const lineId = (pizzaId, size, crust) => `${pizzaId}::${size}::${crust}`
 
+/** Bag lines cover pizzas and desserts; desserts are a fixed single size. */
+export const lineItem = (pizzaId) => getPizza(pizzaId) ?? getDessert(pizzaId)
+export const isDessert = (pizzaId) => !getPizza(pizzaId) && !!getDessert(pizzaId)
+
 export const linePrice = (line) => {
-  const pizza = getPizza(line.pizzaId)
+  const item = lineItem(line.pizzaId)
+  if (!item) return 0
+  if (isDessert(line.pizzaId)) return item.price
+
   const size = SIZES.find((s) => s.id === line.size)
   const crust = CRUSTS.find((c) => c.id === line.crust)
-  if (!pizza || !size || !crust) return 0
-  return Math.round((pizza.price * size.mult + crust.add) * 100) / 100
+  if (!size || !crust) return 0
+  return Math.round(item.price * size.mult + crust.add)
 }
 
 export const useStore = create((set, get) => ({
@@ -69,4 +76,4 @@ export const useStore = create((set, get) => ({
 
 export const selectBagCount = (state) => state.bag.reduce((n, l) => n + l.qty, 0)
 export const selectSubtotal = (state) =>
-  Math.round(state.bag.reduce((sum, l) => sum + linePrice(l) * l.qty, 0) * 100) / 100
+  Math.round(state.bag.reduce((sum, l) => sum + linePrice(l) * l.qty, 0))

@@ -2,9 +2,13 @@ import { useCallback, useMemo, useState } from 'react'
 import Reveal from './Reveal.jsx'
 import Viewport from '../three/Viewport.jsx'
 import { AtlasScene } from '../three/scenes.jsx'
-import { REGIONS, getPizza } from '../data/menu.js'
+import { REGIONS, getPizza, ALL_PIZZAS } from '../data/menu.js'
 import { useActiveSection } from '../hooks/useReveal.js'
 import { useStore } from '../store.js'
+import VegMark from './VegMark.jsx'
+import { inr } from '../data/config.js'
+
+const VEG_COUNT = ALL_PIZZAS.filter((p) => p.veg).length
 
 function Spice({ level }) {
   if (!level) return null
@@ -20,6 +24,7 @@ function Spice({ level }) {
 export default function Atlas() {
   const [activeId, setActiveId] = useState(REGIONS[0].id)
   const [hoveredId, setHoveredId] = useState(null)
+  const [vegOnly, setVegOnly] = useState(false)
   const addToBag = useStore((s) => s.addToBag)
   const openBag = useStore((s) => s.openBag)
 
@@ -64,6 +69,24 @@ export default function Atlas() {
           <br />
           know what they&apos;re doing.
         </Reveal>
+
+        <div className="atlas__filter reveal">
+          <button
+            type="button"
+            className={`vegtoggle ${vegOnly ? 'is-on' : ''}`}
+            role="switch"
+            aria-checked={vegOnly}
+            onClick={() => setVegOnly((v) => !v)}
+          >
+            <span className="vegtoggle__track" aria-hidden="true">
+              <span className="vegtoggle__knob" />
+            </span>
+            Veg only
+          </button>
+          <span className="atlas__count mono num">
+            {vegOnly ? VEG_COUNT : 42} pies
+          </span>
+        </div>
       </div>
 
       <div className="atlas__grid">
@@ -99,7 +122,9 @@ export default function Atlas() {
               </header>
 
               <ul className="chapter__list">
-                {chapter.pizzas.map((pizza) => (
+                {chapter.pizzas
+                  .filter((pizza) => !vegOnly || pizza.veg)
+                  .map((pizza) => (
                   <li key={pizza.id}>
                     <div
                       className={`flavor ${shown.id === pizza.id ? 'is-active' : ''}`}
@@ -110,13 +135,14 @@ export default function Atlas() {
                     >
                       <div>
                         <span className="flavor__name">
+                          <VegMark veg={pizza.veg} egg={pizza.egg} small />
                           {pizza.name}
                           <Spice level={pizza.spice} />
                         </span>
                         <span className="flavor__tag">{pizza.tagline}</span>
                       </div>
 
-                      <span className="flavor__price num">${pizza.price}</span>
+                      <span className="flavor__price num">{inr(pizza.price)}</span>
 
                       <button
                         type="button"
@@ -128,7 +154,12 @@ export default function Atlas() {
                       </button>
                     </div>
                   </li>
-                ))}
+                  ))}
+                {vegOnly && chapter.pizzas.every((p) => !p.veg) && (
+                  <li className="chapter__empty">
+                    Nothing vegetarian in this chapter yet.
+                  </li>
+                )}
               </ul>
             </article>
           ))}

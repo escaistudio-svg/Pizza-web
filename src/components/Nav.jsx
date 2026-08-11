@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react'
 import PizzaO from './PizzaO.jsx'
 import { useStore, selectBagCount } from '../store.js'
 import { scrollState } from '../scroll.js'
+import { CONTACT, storeStatus } from '../data/config.js'
 
 const LINKS = [
   { href: '#atlas', label: 'The Atlas' },
+  { href: '#desserts', label: 'Desserts' },
   { href: '#studio', label: 'Build a Pie' },
-  { href: '#story', label: 'Story' },
+  { href: '#delivery', label: 'Delivery' },
+  { href: '#faq', label: 'FAQ' },
 ]
 
 export default function Nav() {
@@ -14,6 +17,7 @@ export default function Nav() {
   const count = useStore(selectBagCount)
   const lastAdded = useStore((s) => s.lastAdded)
   const openBag = useStore((s) => s.openBag)
+  const status = storeStatus()
 
   useEffect(() => {
     let frame
@@ -43,6 +47,11 @@ export default function Nav() {
         </nav>
 
         <div className="nav__actions">
+          <a className="nav__call" href={CONTACT.phoneHref}>
+            <span className={`dot ${status.open ? 'dot--open' : 'dot--shut'}`} aria-hidden="true" />
+            <span className="nav__call-num">{CONTACT.phoneDisplay}</span>
+          </a>
+
           <button
             type="button"
             className={`nav__bag ${lastAdded ? 'is-bumped' : ''}`}

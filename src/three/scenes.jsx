@@ -43,11 +43,20 @@ function HeroRig({ children }) {
     const s = 1 - p * 0.18
     rig.current.scale.setScalar(THREE.MathUtils.damp(rig.current.scale.x, s, 8, d))
 
+    // A slow Lissajous drift so the pie travels rather than spinning in place —
+    // the two frequencies are deliberately non-harmonic so the path never
+    // visibly repeats.
+    const t = state.clock.elapsedTime
+    const driftX = Math.sin(t * 0.23) * 0.85 + Math.sin(t * 0.41) * 0.22
+    const driftZ = Math.cos(t * 0.31) * 0.5
+    const driftY = Math.sin(t * 0.37) * 0.22
+
     // A whisper of pointer parallax — enough to feel alive, not enough to notice.
     const { x, y } = state.pointer
-    rig.current.rotation.z = THREE.MathUtils.damp(rig.current.rotation.z, x * 0.07, 4, d)
-    rig.current.position.x = THREE.MathUtils.damp(rig.current.position.x, x * 0.22, 4, d)
-    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, y * 0.12, 4, d)
+    rig.current.rotation.z = THREE.MathUtils.damp(rig.current.rotation.z, x * 0.07 + Math.sin(t * 0.19) * 0.05, 4, d)
+    rig.current.position.x = THREE.MathUtils.damp(rig.current.position.x, x * 0.22 + driftX, 4, d)
+    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, y * 0.12 + driftZ, 4, d)
+    rig.current.position.y += driftY * d
   })
 
   return <group ref={rig}>{children}</group>
@@ -84,9 +93,20 @@ function AtlasRig({ children }) {
   useFrame((state, delta) => {
     if (!rig.current) return
     const d = Math.min(delta, 0.05)
+    const t = state.clock.elapsedTime
     const { x, y } = state.pointer
+
     rig.current.rotation.x = THREE.MathUtils.damp(rig.current.rotation.x, 0.24 + y * 0.12, 4, d)
-    rig.current.rotation.z = THREE.MathUtils.damp(rig.current.rotation.z, x * 0.1, 4, d)
+    rig.current.rotation.z = THREE.MathUtils.damp(
+      rig.current.rotation.z,
+      x * 0.1 + Math.sin(t * 0.27) * 0.07,
+      4,
+      d
+    )
+    // Swings gently across the sticky column instead of hanging still.
+    rig.current.position.x = THREE.MathUtils.damp(rig.current.position.x, Math.sin(t * 0.29) * 0.7, 3, d)
+    rig.current.position.y = THREE.MathUtils.damp(rig.current.position.y, Math.sin(t * 0.44) * 0.28, 3, d)
+    rig.current.position.z = THREE.MathUtils.damp(rig.current.position.z, Math.cos(t * 0.21) * 0.45, 3, d)
   })
 
   return <group ref={rig}>{children}</group>
@@ -147,6 +167,71 @@ export function StudioScene({ pizza, onPhase }) {
         far={6}
         resolution={512}
         color="#0d0705"
+      />
+    </>
+  )
+}
+
+/* ------------------------------------------------------------------ *
+ * desserts — the pie actually travels, on a wide banked orbit
+ * ------------------------------------------------------------------ */
+
+function DessertRig({ children }) {
+  const rig = useRef()
+  const inner = useRef()
+
+  useFrame((state, delta) => {
+    if (!rig.current || !inner.current) return
+    const d = Math.min(delta, 0.05)
+    const t = state.clock.elapsedTime
+
+    // A wide orbit in the XZ plane. The pie sweeps toward the viewer at the
+    // front of the arc and away at the back, so it reads as travelling through
+    // the scene rather than turning on a turntable.
+    const period = 15
+    const a = (t / period) * Math.PI * 2
+    const radius = 1.45
+
+    rig.current.position.x = Math.sin(a) * radius
+    rig.current.position.z = Math.cos(a) * radius * 0.6
+    rig.current.position.y = Math.sin(a * 2) * 0.4
+
+    // Bank into the turn, the way anything moving on a curve would.
+    rig.current.rotation.z = THREE.MathUtils.damp(rig.current.rotation.z, -Math.cos(a) * 0.16, 4, d)
+    rig.current.rotation.x = THREE.MathUtils.damp(rig.current.rotation.x, 0.3 + Math.sin(a) * 0.1, 4, d)
+
+    // Nearer at the front of the arc, smaller at the back.
+    const depth = 1 + Math.cos(a) * 0.1
+    inner.current.scale.setScalar(THREE.MathUtils.damp(inner.current.scale.x, depth, 4, d))
+
+    const { x, y } = state.pointer
+    inner.current.rotation.z = THREE.MathUtils.damp(inner.current.rotation.z, x * 0.1, 4, d)
+    inner.current.rotation.x = THREE.MathUtils.damp(inner.current.rotation.x, y * 0.1, 4, d)
+  })
+
+  return (
+    <group ref={rig}>
+      <group ref={inner}>{children}</group>
+    </group>
+  )
+}
+
+export function DessertScene({ dessert, onPhase }) {
+  return (
+    <>
+      <Camera position={[0, 8.2, 11.2]} fov={36} />
+      <Stage intensity={1.05} />
+      <DessertRig>
+        <Pizza pizza={dessert} scale={1.08} autoSpin={0.34} onPhase={onPhase} />
+      </DessertRig>
+      <ContactShadows
+        position={[0, -2.2, 0]}
+        opacity={0.36}
+        scale={18}
+        blur={3.4}
+        far={8}
+        resolution={512}
+        color="#7A5A32"
       />
     </>
   )

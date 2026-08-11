@@ -6,6 +6,8 @@ import Ethos from './components/Ethos.jsx'
 import Atlas from './components/Atlas.jsx'
 import Desserts from './components/Desserts.jsx'
 import Studio from './components/Studio.jsx'
+import Offers from './components/Offers.jsx'
+import Tracker from './components/Tracker.jsx'
 import Serviceability from './components/Serviceability.jsx'
 import Faq from './components/Faq.jsx'
 import Footer from './components/Footer.jsx'
@@ -35,7 +37,9 @@ export default function App() {
         <Atlas />
         <Desserts />
         <Studio />
+        <Offers />
         <Serviceability />
+        <Tracker />
         <Faq />
       </main>
 

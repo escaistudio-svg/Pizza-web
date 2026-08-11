@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { PerspectiveCamera, ContactShadows } from '@react-three/drei'
 import Pizza from './Pizza.jsx'
+import DessertModel from './Dessert.jsx'
 import Stage from './Stage.jsx'
 import { scrollState } from '../scroll.js'
 
@@ -190,11 +191,11 @@ function DessertRig({ children }) {
     // the scene rather than turning on a turntable.
     const period = 15
     const a = (t / period) * Math.PI * 2
-    const radius = 1.45
+    const radius = 0.9
 
     rig.current.position.x = Math.sin(a) * radius
     rig.current.position.z = Math.cos(a) * radius * 0.6
-    rig.current.position.y = Math.sin(a * 2) * 0.4
+    rig.current.position.y = Math.sin(a * 2) * 0.22
 
     // Bank into the turn, the way anything moving on a curve would.
     rig.current.rotation.z = THREE.MathUtils.damp(rig.current.rotation.z, -Math.cos(a) * 0.16, 4, d)
@@ -216,18 +217,18 @@ function DessertRig({ children }) {
   )
 }
 
-export function DessertScene({ dessert, onPhase }) {
+export function DessertScene({ dessert }) {
   return (
     <>
-      <Camera position={[0, 8.2, 11.2]} fov={36} />
+      <Camera position={[0, 4.6, 7.4]} fov={34} />
       <Stage intensity={1.05} />
       <DessertRig>
-        <Pizza pizza={dessert} scale={1.08} autoSpin={0.34} onPhase={onPhase} />
+        <DessertModel dessert={dessert} scale={1.5} autoSpin={0.36} />
       </DessertRig>
       <ContactShadows
-        position={[0, -2.2, 0]}
-        opacity={0.36}
-        scale={18}
+        position={[0, -1.05, 0]}
+        opacity={0.42}
+        scale={9}
         blur={3.4}
         far={8}
         resolution={512}

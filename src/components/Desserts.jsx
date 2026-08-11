@@ -9,9 +9,11 @@ import { inr } from '../data/config.js'
 import { useStore } from '../store.js'
 
 /**
- * The sweet half of the menu. Same 3D engine as the pizzas — a dessert is just
- * a pie with a sweet base — but the rig puts it on a travelling orbit instead
- * of leaving it turning on the spot.
+ * The sweet half of the menu.
+ *
+ * These are modelled as real desserts rather than sweet pizzas — see
+ * src/three/Dessert.jsx. Each rides a banked orbit so it travels through the
+ * scene instead of spinning on the spot.
  */
 export default function Desserts() {
   const [index, setIndex] = useState(0)
@@ -57,13 +59,14 @@ export default function Desserts() {
           <div>
             <span className="eyebrow">Something sweet</span>
             <Reveal as="h2" className="sweet__title">
-              The mithai counter
+              Then something
               <br />
-              meets the wood oven.
+              sweet.
             </Reveal>
           </div>
           <p className="sweet__note reveal">
-            Six desserts, all vegetarian, all built on the same 72-hour dough.
+            Five, made in the same kitchen. The lava cake goes back in the oven
+            to order, so give it eight minutes.
           </p>
         </div>
 

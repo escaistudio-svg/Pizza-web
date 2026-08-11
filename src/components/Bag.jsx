@@ -5,6 +5,7 @@ import { useScrollLock } from '../hooks/useSmoothScroll.js'
 import { SIZES, CRUSTS } from '../data/menu.js'
 import { DELIVERY, inr, GST_NOTE, PAYMENTS, CONTACT } from '../data/config.js'
 import VegMark from './VegMark.jsx'
+import OrderMode from './OrderMode.jsx'
 
 export default function Bag() {
   const open = useStore((s) => s.bagOpen)
@@ -13,6 +14,8 @@ export default function Bag() {
   const bump = useStore((s) => s.bumpLine)
   const count = useStore(selectBagCount)
   const subtotal = useStore(selectSubtotal)
+  const mode = useStore((s) => s.orderMode)
+  const delivered = mode === 'delivery'
 
   useScrollLock(open)
 
@@ -23,7 +26,7 @@ export default function Bag() {
     return () => window.removeEventListener('keydown', onKey)
   }, [open, close])
 
-  const freeShipping = subtotal >= DELIVERY.freeAbove
+  const freeShipping = !delivered || subtotal >= DELIVERY.freeAbove
   const shipping = !bag.length || freeShipping ? 0 : DELIVERY.fee
   const total = bag.length ? subtotal + shipping : 0
   const belowMin = bag.length > 0 && subtotal < DELIVERY.minOrder
@@ -42,6 +45,10 @@ export default function Bag() {
         aria-hidden={!open}
         aria-label="Your bag"
       >
+        <div className="bag__mode">
+          <OrderMode compact />
+        </div>
+
         <div className="bag__head">
           <h2 className="bag__title">
             Your bag
@@ -120,7 +127,7 @@ export default function Bag() {
         </div>
 
         <div className="bag__foot">
-          {bag.length > 0 && !freeShipping && (
+          {bag.length > 0 && delivered && !freeShipping && (
             <p className="bag__nudge">
               Add <strong className="num">{inr(toFree)}</strong> more for free delivery.
             </p>
@@ -131,9 +138,9 @@ export default function Bag() {
             <span className="num">{inr(subtotal)}</span>
           </div>
           <div className="bag__row">
-            <span>Delivery</span>
+            <span>{delivered ? 'Delivery' : mode === 'takeaway' ? 'Takeaway' : 'Dine-in'}</span>
             <span className="num">
-              {!bag.length ? '—' : freeShipping ? 'Free' : inr(DELIVERY.fee)}
+              {!bag.length ? '—' : !delivered ? 'No charge' : freeShipping ? 'Free' : inr(DELIVERY.fee)}
             </span>
           </div>
           <div className="bag__row bag__row--total">

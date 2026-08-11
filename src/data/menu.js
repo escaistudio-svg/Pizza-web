@@ -816,109 +816,147 @@ export const CRUSTS = [
 /* ------------------------------------------------------------------ *
  * desserts
  *
- * Same shape as a pizza, so the same 3D engine renders them — a sweet base
- * plus toppings. Indian sweets do most of the work here; the wood oven and the
- * mithai counter turn out to get along.
+ * Actual desserts, modelled as themselves — see src/three/Dessert.jsx. `form`
+ * picks the geometry; `colors` drives its materials.
  * ------------------------------------------------------------------ */
 
 export const DESSERTS = [
   {
-    id: 'gulab-jamun-cheesecake',
-    veg: true,
-    name: 'Gulab Jamun Cheesecake',
-    tagline: 'Warm jamun · baked cheesecake · rose syrup',
-    price: 429,
-    spice: 0,
-    sauce: 'rose',
-    cheese: 'mascarpone',
-    accent: '#B23E58',
-    toppings: [
-      { shape: 'dome', color: '#6E3A1C', count: 7, size: 1.5 },
-      { shape: 'drizzle', color: '#C4506A', count: 3, size: 1.1 },
-      { shape: 'fleck', color: '#7FA84E', count: 18, size: 0.8 },
-    ],
-  },
-  {
-    id: 'nutella-sea-salt',
-    veg: true,
-    name: 'Nutella & Sea Salt',
-    tagline: 'Hazelnut · flaked salt · burnt butter crust',
-    price: 379,
-    spice: 0,
-    sauce: 'cocoa',
-    cheese: 'none',
-    accent: '#6B4028',
-    toppings: [
-      { shape: 'blob', color: '#8A5A32', count: 10, size: 1.15 },
-      { shape: 'kernel', color: '#F6F0E2', count: 26, size: 0.7 },
-      { shape: 'drizzle', color: '#2A150E', count: 2, size: 1 },
-    ],
-  },
-  {
-    id: 'rasmalai-cream',
-    veg: true,
-    name: 'Rasmalai Cream Pie',
-    tagline: 'Saffron milk · pistachio · cardamom',
-    price: 409,
-    spice: 0,
-    sauce: 'mango',
-    cheese: 'cream',
-    accent: '#D4900E',
-    toppings: [
-      { shape: 'dome', color: '#F6EEDA', count: 6, size: 1.6 },
-      { shape: 'fleck', color: '#5E8A3A', count: 26, size: 0.85 },
-      { shape: 'kernel', color: '#E2A614', count: 16, size: 0.7 },
-    ],
-  },
-  {
-    id: 'motichoor-crumble',
-    veg: true,
-    name: 'Motichoor Crumble',
-    tagline: 'Boondi · ghee crumb · warm caramel',
-    price: 359,
-    spice: 0,
-    sauce: 'caramel',
-    cheese: 'none',
-    accent: '#C97A1E',
-    toppings: [
-      { shape: 'kernel', color: '#E8901A', count: 46, size: 1 },
-      { shape: 'blob', color: '#D6B472', count: 7, size: 0.95 },
-      { shape: 'drizzle', color: '#F2DCA8', count: 2, size: 1 },
-    ],
-  },
-  {
-    id: 'mango-kulfi',
-    veg: true,
-    name: 'Alphonso Kulfi Slice',
-    tagline: 'Alphonso · condensed milk · pistachio — summer only',
-    price: 389,
-    spice: 0,
-    sauce: 'mango',
-    cheese: 'cream',
-    accent: '#E2960C',
-    toppings: [
-      { shape: 'cube', color: '#F2B424', count: 9, size: 1.2 },
-      { shape: 'fleck', color: '#5E8A3A', count: 22, size: 0.8 },
-      { shape: 'kernel', color: '#FBF2DE', count: 18, size: 0.65 },
-    ],
-  },
-  {
-    id: 'choco-chip-cookie-pie',
+    id: 'lava-cake',
     veg: true,
     egg: true,
-    name: 'Cookie Dough Pie',
-    tagline: 'Half-baked · dark chocolate · sea salt',
+    form: 'lava',
+    name: 'Chocolate Lava Cake',
+    tagline: 'Molten centre · 70% dark · served hot',
+    price: 279,
+    accent: '#7A3B18',
+    colors: { body: '#4A2A18', molten: '#2E1508', dust: '#E8DCC4' },
+  },
+  {
+    id: 'tiramisu',
+    veg: true,
+    egg: true,
+    form: 'tiramisu',
+    name: 'Tiramisù',
+    tagline: 'Savoiardi · mascarpone · espresso · cocoa',
     price: 349,
-    spice: 0,
-    sauce: 'caramel',
-    cheese: 'mascarpone',
-    accent: '#8A5216',
-    toppings: [
-      { shape: 'dome', color: '#3A2118', count: 12, size: 0.9 },
-      { shape: 'blob', color: '#C99A5C', count: 8, size: 1.1 },
-      { shape: 'kernel', color: '#F6F0E2', count: 20, size: 0.6 },
-    ],
+    accent: '#6B4A2E',
+    colors: { sponge: '#B98A52', cream: '#F4E8CE', dust: '#4A2E1C' },
+  },
+  {
+    id: 'brownie-gelato',
+    veg: true,
+    egg: true,
+    form: 'brownie',
+    name: 'Brownie & Gelato',
+    tagline: 'Fudge brownie · vanilla bean gelato · sea salt',
+    price: 329,
+    accent: '#5A3218',
+    colors: { body: '#3E2416', scoop: '#F6EEDA', dust: '#8A5A32' },
+  },
+  {
+    id: 'cannoli',
+    veg: true,
+    form: 'cannoli',
+    name: 'Cannoli Siciliani',
+    tagline: 'Fried shell · sweet ricotta · pistachio',
+    price: 299,
+    accent: '#A8752E',
+    colors: { body: '#C08E42', cream: '#F8F0DC', dust: '#5E8A3A' },
+  },
+  {
+    id: 'gelato',
+    veg: true,
+    form: 'gelato',
+    name: 'Gelato — two scoops',
+    tagline: 'Pistachio and stracciatella, churned daily',
+    price: 249,
+    accent: '#6E8A3E',
+    colors: { body: '#EFE4CE', scoop: '#CBDCA0', scoop2: '#F6EFDE', dust: '#3A2418' },
   },
 ]
 
 export const getDessert = (id) => DESSERTS.find((d) => d.id === id)
+
+/* ------------------------------------------------------------------ *
+ * order modes — delivery, takeaway, dine-in
+ * ------------------------------------------------------------------ */
+
+export const ORDER_MODES = [
+  {
+    id: 'delivery',
+    label: 'Delivery',
+    blurb: 'To your door across Mumbai',
+    eta: '30–65 min',
+    needsPincode: true,
+  },
+  {
+    id: 'takeaway',
+    label: 'Takeaway',
+    blurb: 'Collect from Pali Naka',
+    eta: '20 min',
+    needsPincode: false,
+  },
+  {
+    id: 'dinein',
+    label: 'Dine-in',
+    blurb: 'Twenty-two seats, no reservations',
+    eta: 'Walk in',
+    needsPincode: false,
+  },
+]
+
+/* ------------------------------------------------------------------ *
+ * offers and combos
+ * ------------------------------------------------------------------ */
+
+export const OFFERS = [
+  {
+    id: 'weekday-two',
+    code: 'TWOFOR',
+    kind: 'combo',
+    title: 'Two pies, two desserts',
+    blurb: 'Any two Pair-size pizzas with two desserts.',
+    price: 1499,
+    was: 1856,
+    note: 'Tue–Thu only',
+  },
+  {
+    id: 'solo-lunch',
+    code: 'DESKLUNCH',
+    kind: 'combo',
+    title: 'The desk lunch',
+    blurb: 'One Solo pizza, one gelato, delivered before 3pm.',
+    price: 649,
+    was: 748,
+    note: 'Weekdays till 3pm',
+  },
+  {
+    id: 'first-order',
+    code: 'FIRSTFIRE',
+    kind: 'code',
+    title: '20% off your first order',
+    blurb: 'Up to ₹200 off. One use per number.',
+    note: 'New customers',
+  },
+  {
+    id: 'party',
+    code: null,
+    kind: 'enquiry',
+    title: 'Party & office orders',
+    blurb: 'Eight pies or more, four hours notice. We plan the veg split with you.',
+    note: 'Call to book',
+  },
+]
+
+/* ------------------------------------------------------------------ *
+ * order tracking stages
+ * ------------------------------------------------------------------ */
+
+export const TRACK_STAGES = [
+  { id: 'placed', label: 'Order placed', note: 'We have your order' },
+  { id: 'prep', label: 'Stretching', note: 'Dough shaped by hand' },
+  { id: 'oven', label: 'In the fire', note: '480°, ninety seconds' },
+  { id: 'box', label: 'Boxed', note: 'Cut and on its way out' },
+  { id: 'out', label: 'Out for delivery', note: 'Rider on the road' },
+]

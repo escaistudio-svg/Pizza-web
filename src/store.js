@@ -23,6 +23,10 @@ export const useStore = create((set, get) => ({
   loaded: false,
   setLoaded: (loaded) => set({ loaded }),
 
+  /* ---- how you're getting it: delivery | takeaway | dinein ---- */
+  orderMode: 'delivery',
+  setOrderMode: (orderMode) => set({ orderMode }),
+
   /* ---- order studio ---- */
   flavorId: SIGNATURE_IDS[0],
   size: 'pair',

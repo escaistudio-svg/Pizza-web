@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react'
 import { checkPincode, DELIVERY, inr, OUTLET, storeStatus } from '../data/config.js'
+import { ORDER_MODES } from '../data/menu.js'
+import { useStore } from '../store.js'
+import OrderMode from './OrderMode.jsx'
 
 /**
  * "Do you deliver to me?" — the first question anyone actually has.
@@ -13,6 +16,8 @@ export default function Serviceability() {
   const [result, setResult] = useState(null)
   const inputRef = useRef(null)
   const status = storeStatus()
+  const mode = useStore((s) => s.orderMode)
+  const modeInfo = ORDER_MODES.find((m) => m.id === mode) ?? ORDER_MODES[0]
 
   const submit = (e) => {
     e.preventDefault()
@@ -31,7 +36,11 @@ export default function Serviceability() {
       <div className="shell serve__grid">
         <div className="serve__intro">
           <span className="eyebrow reveal">Delivery</span>
-          <h2 className="serve__title reveal">Are we in your neighbourhood?</h2>
+          <h2 className="serve__title reveal">
+            {modeInfo.needsPincode ? 'Are we in your neighbourhood?' : 'Come and get it.'}
+          </h2>
+
+          <OrderMode />
           <p className="serve__hours reveal">
             <span className={`dot ${status.open ? 'dot--open' : 'dot--shut'}`} aria-hidden="true" />
             {status.label}
@@ -41,6 +50,7 @@ export default function Serviceability() {
           </p>
         </div>
 
+        {modeInfo.needsPincode ? (
         <form className="serve__form reveal" onSubmit={submit}>
           <div className="pinbox">
             <label htmlFor="pincode" className="pinbox__label">
@@ -91,6 +101,24 @@ export default function Serviceability() {
             )}
           </div>
         </form>
+        ) : (
+          <div className="serve__pickup reveal">
+            <p className="serve__pickup-eta mono">{modeInfo.eta}</p>
+            <p className="serve__pickup-addr">
+              {OUTLET.line1}
+              <br />
+              {OUTLET.line2}
+            </p>
+            <a
+              className="btn btn--ghost"
+              href={OUTLET.mapsHref}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open in Maps
+            </a>
+          </div>
+        )}
       </div>
     </section>
   )
